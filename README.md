@@ -1,0 +1,1 @@
+# Static-IP-Router-Managed-Switch-Setup
