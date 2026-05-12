@@ -1,40 +1,104 @@
-# Home Network Hardware Lab
+# Home Network & VLAN Lab (TP-Link ER707-M2 + Managed Switch)
 
-This project documents a small home network built with physical networking hardware to practice IP addressing, DHCP configuration, device management, and troubleshooting.
+## Overview
+This project documents the design, configuration, and troubleshooting of a home network lab built using a TP-Link ER707-M2 router, an AT&T BGW320 gateway in IP passthrough mode, and a TRENDnet managed switch. The goal was to create a stable, segmented LAN environment for learning enterprise networking concepts including DHCP, VLANs, NAT, and switch management.
 
-## Hardware Used
-- TP-Link Omada VPN Gateway
-- TRENDnet 10-Port Multi-Gig Web Smart Switch
-- Windows client devices
+---
 
-## Objectives
-- Configure static management IP addresses for network infrastructure devices
-- Configure DHCP for client devices connected to the switch
-- Validate connectivity between endpoints and the gateway
-- Practice troubleshooting using common network tools
+## 🧰 Hardware Used
+- TP-Link ER707-M2 Router
+- AT&T BGW320 Gateway (ISP modem/router)
+- TRENDnet TEG-3102WS Managed Switch
+- Multiple client devices (Windows/Linux PCs)
 
-## Network Configuration
-- Omada Gateway: 192.168.80.1
-- TRENDnet Switch: 192.168.80.2
-- DHCP Pool: 192.168.80.100 - 192.168.80.200
+---
 
-## Configuration Steps
-1. Accessed the Omada gateway web interface using its management IP address.
-2. Assigned a static management IP address to the gateway.
-3. Configured a DHCP address pool for client devices.
-4. Accessed the TRENDnet switch web management interface and assigned a static management IP address.
-5. Connected client devices through the switch and verified successful DHCP lease assignment.
+## 🌐 Network Architecture
 
-## Validation
-- Confirmed clients received valid IP addresses from the configured DHCP pool.
-- Verified default gateway reachability using ping.
-- Confirmed local network communication between connected devices.
-- Reviewed endpoint network configuration using ipconfig.
 
-## Skills Demonstrated
-- TCP/IP addressing
-- DHCP configuration
-- Web-managed switch administration
-- Gateway configuration
-- Network troubleshooting
-- Physical network hardware deployment
+
+---
+
+## ⚙️ Network Configuration
+
+```text
+Internet
+↓
+AT&T BGW320 (IP Passthrough Mode)
+↓
+TP-Link ER707-M2 (Main Router)
+↓
+TRENDnet Managed Switch
+↓
+Client Devices
+```
+
+### Router Configuration
+- LAN Subnet: `192.168.80.0/24`
+- Gateway: `192.168.80.1`
+- DHCP Server: Enabled
+- WAN: Public IP via IP Passthrough
+
+### Switch Configuration
+- Management IP: `192.168.80.2`
+- Subnet Mask: `255.255.255.0`
+- Default Gateway: `192.168.80.1`
+- Operating Mode: Layer 2 switching
+
+---
+
+## 🔀 Key Concepts Implemented
+
+### IP Passthrough
+Configured on AT&T BGW320 to allow the TP-Link router to receive a public WAN IP and act as the primary router, eliminating double NAT.
+
+### DHCP Management
+Centralized DHCP handled by TP-Link router to assign IPs within `192.168.80.0/24`.
+
+### VLAN Configuration
+Initial VLAN misconfiguration caused DHCP conflicts and network isolation. Resolved by correctly assigning switch ports as untagged members of the correct VLAN.
+
+---
+
+## ⚠️ Issues Encountered & Resolved
+
+### DHCP Conflicts
+- Devices were receiving `192.168.0.x` instead of `192.168.80.x`
+- Cause: AT&T gateway still partially serving DHCP
+
+### VLAN Misconfiguration
+- Ports were incorrectly assigned as both tagged and untagged across VLANs
+- Resulted in loss of network access and switch isolation
+
+### Network Lockouts
+- Misconfigured VLAN changes caused loss of access to router and switch interfaces
+- Resolved by direct PC-to-router connection and restoring correct VLAN port membership
+
+---
+
+## 🧠 Key Learnings
+
+- Difference between NAT, IP passthrough, and routing roles
+- VLAN tagging vs untagged traffic behavior
+- Layer 2 vs Layer 3 networking responsibilities
+- Importance of port membership in managed switches
+- Troubleshooting DHCP conflicts in multi-device environments
+
+---
+
+## 📌 Final Outcome
+
+A stable, segmented home network with:
+- Clean single-subnet LAN (`192.168.80.0/24`)
+- Managed switch integration
+- Proper router-to-switch architecture
+- Functional IP passthrough setup
+- Hands-on VLAN troubleshooting experience
+
+---
+
+## 🚀 Future Improvements
+- VLAN segmentation for PCs, IoT, and lab environments
+- Firewall rule implementation between VLANs
+- Network monitoring using packet analysis tools
+- Advanced routing and security configurations
