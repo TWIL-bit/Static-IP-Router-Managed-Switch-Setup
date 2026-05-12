@@ -13,12 +13,6 @@ This project documents the design, configuration, and troubleshooting of a home 
 
 ---
 
-## 🌐 Network Architecture
-
-
-
----
-
 ## ⚙️ Network Configuration
 
 ```text
@@ -39,11 +33,22 @@ Client Devices
 - DHCP Server: Enabled
 - WAN: Public IP via IP Passthrough
 
+<br>
+<img width="1429" height="1271" alt="RouterLanSettings" src="https://github.com/user-attachments/assets/70a46c95-4e8d-439a-846d-6e15e5a65f10" />
+
+<br>
+
+
 ### Switch Configuration
 - Management IP: `192.168.80.2`
 - Subnet Mask: `255.255.255.0`
 - Default Gateway: `192.168.80.1`
 - Operating Mode: Layer 2 switching
+
+<br>
+<img width="1620" height="1090" alt="SwitchInterface" src="https://github.com/user-attachments/assets/1263bb5e-94c2-4abb-b479-7598b934ca38" />
+
+<br>
 
 ---
 
@@ -57,6 +62,10 @@ Centralized DHCP handled by TP-Link router to assign IPs within `192.168.80.0/24
 
 ### VLAN Configuration
 Initial VLAN misconfiguration caused DHCP conflicts and network isolation. Resolved by correctly assigning switch ports as untagged members of the correct VLAN.
+
+<br>
+<img width="1597" height="1007" alt="VLANPortAssignment" src="https://github.com/user-attachments/assets/d60c233d-ca62-4a04-8c02-3bfdf3a6e49c" />
+<br>
 
 ---
 
@@ -73,6 +82,7 @@ Initial VLAN misconfiguration caused DHCP conflicts and network isolation. Resol
 ### Network Lockouts
 - Misconfigured VLAN changes caused loss of access to router and switch interfaces
 - Resolved by direct PC-to-router connection and restoring correct VLAN port membership
+
 
 ---
 
